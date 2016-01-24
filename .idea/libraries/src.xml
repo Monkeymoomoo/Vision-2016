@@ -1,0 +1,23 @@
+<component name="libraryTable">
+  <library name="src">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/opencv/build/java/opencv-310.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/x64/vc14/bin" />
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/x64/vc14/bin" />
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/x64/vc14/bin" />
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/x64/vc12/bin" />
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/x64/vc12/bin" />
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/x64/vc12/bin" />
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/bin" />
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/bin" />
+      <root url="file://$PROJECT_DIR$/libs/opencv/build/java/x64" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/libs/opencv/sources/modules/java/pure_test/src" />
+      <root url="jar://$PROJECT_DIR$/libs/opencv/build/java/opencv-310.jar!/" />
+    </SOURCES>
+  </library>
+</component>
