@@ -1,12 +1,7 @@
 package org.usfirst.frc.team4737.robot.vision;
 
-import cl.eye.CLCamera;
-import javafx.scene.input.KeyCode;
 import org.opencv.core.*;
-import org.opencv.core.Point;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.video.Video;
 import org.opencv.videoio.VideoCapture;
 import org.usfirst.frc.team4737.robot.vision.balldetect.*;
 
@@ -16,8 +11,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.*;
-import java.util.List;
 
 import static org.opencv.imgproc.Imgproc.*;
 
