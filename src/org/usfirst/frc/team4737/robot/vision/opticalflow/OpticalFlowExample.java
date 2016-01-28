@@ -20,8 +20,7 @@ import java.io.*;
 public class OpticalFlowExample {
 
     static {
-        System.load(new File("libs/opencv/build/java/x64/opencv_java310.dll").getAbsolutePath());
-        System.load(new File("libs/opencv/build/x64/vc14/bin/opencv_ffmpeg310_64.dll").getAbsolutePath());
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
     private static Mat drawFlow(Mat im, Mat flow) {
@@ -75,7 +74,7 @@ public class OpticalFlowExample {
         Imgcodecs.imencode(".PNG", image, matOfByte);
         byte[] byteArray = matOfByte.toArray();
         BufferedImage bufImage;
-        int scale = 2;
+        int scale = 1;
         try {
             InputStream in = new ByteArrayInputStream(byteArray);
             bufImage = ImageIO.read(in);
@@ -88,8 +87,10 @@ public class OpticalFlowExample {
 
     public static void main(String[] args) {
 
+        Mat testmat = new Mat(0, 0, 0);
+
         // Setup capture
-        VideoCapture cap = new VideoCapture(1);
+        VideoCapture cap = new VideoCapture(0);
 
         Mat im = new Mat();
         Mat prevGray = new Mat();

@@ -2,7 +2,7 @@ package org.usfirst.frc.team4737.robot.vision;
 
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.videoio.VideoCapture;
+import org.opencv.videoio.*;
 import org.usfirst.frc.team4737.robot.vision.balldetect.*;
 
 import javax.imageio.ImageIO;
@@ -30,9 +30,9 @@ public class Vision {
     private BallDetector2 ballDetector;
 
     public Vision() {
-        video = new VideoCapture("test/capture2.avi");
+        video = new VideoCapture(0);
 
-        ballDetector = new BallDetector2 ();
+        ballDetector = new BallDetector2();
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -110,8 +110,7 @@ public class Vision {
     }
 
     public static void main(String[] args) {
-        System.load(new File("libs/opencv/build/java/x64/opencv_java310.dll").getAbsolutePath());
-        System.load(new File("libs/opencv/build/bin/opencv_ffmpeg310_64.dll").getAbsolutePath());
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
         new Vision().start();
     }
