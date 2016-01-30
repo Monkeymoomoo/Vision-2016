@@ -20,6 +20,12 @@ public class Circle {
         this.r = r;
     }
 
+    public Circle(Point center, double r) {
+        this.x = center.x;
+        this.y = center.y;
+        this.r = r;
+    }
+
     public Circle(double[] params) {
         if (params.length != 3) throw new IllegalArgumentException("Circle must have three parameters: x, y, and r.");
 

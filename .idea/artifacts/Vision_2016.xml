@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Vision-2016">
+    <output-path>$PROJECT_DIR$/out/artifacts/Vision_2016</output-path>
+    <root id="archive" name="Vision-2016.jar">
+      <element id="module-output" name="Vision-2016" />
+      <element id="library" level="project" name="wpilib" />
+      <element id="extracted-dir" path="$USER_HOME$/opencv-3.1.0/build/bin/opencv-310.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$USER_HOME$/opencv-3.1.0/build/lib" />
+    </root>
+  </artifact>
+</component>

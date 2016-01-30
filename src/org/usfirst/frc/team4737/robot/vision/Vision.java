@@ -8,7 +8,6 @@ import org.usfirst.frc.team4737.robot.vision.balldetect.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -20,75 +19,89 @@ import static org.opencv.imgproc.Imgproc.*;
  */
 public class Vision {
 
-    private VideoCapture video;
+    // Cameras
+    private VideoCapture camera0;
+    private VideoCapture camera1;
 
-    private boolean feedPaused;
-
+    // GUI
     private JFrame frame;
-    private JLabel label;
+    private JLabel imageLabel;
 
-    private BallDetector2 ballDetector;
+    // Ball detector variables
+    private BallDetector ballDetector;
+    private int blurSize = 6;
+    private int cannyLow = 20;
+    private int cannyHigh = 150;
+    private int pointDist = 10;
+    private int filtRadMin = 10;
+    private int filtRadMax = 60;
+    private int binSize = 20;
+    private int outsideBinBorderDepth = 3;
+    private int minBinVolume = 5;
+    private int outlierDist = 30;
+    private double maxDensitySpread = 2.5;
 
     public Vision() {
-        video = new VideoCapture(0);
+        // Create cameras
+        camera0 = new VideoCapture(0);
+//        camera1 = new VideoCapture(1);
 
-        ballDetector = new BallDetector2();
+        // Create ball detector
+        ballDetector = new BallDetector(false, true, true);
 
+        // Create GUI
         frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.getContentPane().add(label = new JLabel());
+
+        imageLabel = new JLabel();
+        frame.getContentPane().add(imageLabel);
+
         frame.setVisible(true);
-
-        frame.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE)
-                    feedPaused = !feedPaused;
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
     }
 
     public void start() {
-        long frameLength = 1000000000 / 30;
-        long currentTime;
-        long previousTime = System.nanoTime();
-
         while (true) {
-            currentTime = System.nanoTime();
-            if (currentTime - previousTime < frameLength || feedPaused)
-                continue;
 
             // Grab image from video feed
             Mat sourceImage = new Mat();
-            video.grab();
-            video.retrieve(sourceImage);
+            camera0.grab();
+            camera0.retrieve(sourceImage);
 
             // Check if it is a valid image
             if (sourceImage.dims() < 2)
-                break;
+                continue;
 
             // Convert to RGB
             Mat rgbImage = new Mat();
             cvtColor(sourceImage, rgbImage, COLOR_YUV2RGB);
 
             // Detect balls
-            Circle[] balls = ballDetector.findBoulders(sourceImage);
+//            Circle[] balls = ballDetector.findBoulders(
+//                    sourceImage,
+//                    4, 4,
+//                    49, 50,
+//                    10,
+//                    10, 60,
+//                    20, 3,
+//                    30,
+//                    3);
+
+            Circle[] balls = ballDetector.findBoulders(
+                    sourceImage,
+                    4, blurSize,
+                    cannyLow, cannyHigh,
+                    pointDist,
+                    filtRadMin, filtRadMax,
+                    binSize, outsideBinBorderDepth,
+                    minBinVolume,
+                    outlierDist,
+                    maxDensitySpread);
 
             // Update image
             Mat img = ballDetector.getDebugImg();
             updateImage(img);
-
-            previousTime = currentTime;
         }
-        System.out.println("Video finished.");
+//        System.out.println("Video finished.");
     }
 
     public void updateImage(Mat image) {
@@ -98,12 +111,12 @@ public class Vision {
         Imgcodecs.imencode(".png", image, matOfByte);
         byte[] byteArray = matOfByte.toArray();
         BufferedImage bufImage;
-        int scale = 7;
+        int scale = 4;
         try {
             InputStream in = new ByteArrayInputStream(byteArray);
             bufImage = ImageIO.read(in);
-            label.setIcon(new ImageIcon(bufImage.getScaledInstance(bufImage.getWidth() * scale, bufImage.getHeight() * scale, Image.SCALE_FAST)));
-            frame.setSize(image.width() * scale, image.height() * scale);
+            imageLabel.setIcon(new ImageIcon(bufImage.getScaledInstance(bufImage.getWidth() * scale, bufImage.getHeight() * scale, Image.SCALE_FAST)));
+            frame.pack();
         } catch (Exception e) {
             e.printStackTrace();
         }
